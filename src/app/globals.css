@@ -1,26 +1,166 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
+@custom-variant dark (&:is(.dark *));
+
+@font-face {
+  font-family: 'TheSeasons';
+  src: url('/fonts/Fontspring-DEMO-theseasons-reg.otf') format('opentype');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+@font-face {
+  font-family: 'TheSeasons';
+  src: url('/fonts/Fontspring-DEMO-theseasons-it.otf') format('opentype');
+  font-weight: 400;
+  font-style: italic;
+  font-display: swap;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+@font-face {
+  font-family: 'TheSeasons';
+  src: url('/fonts/Fontspring-DEMO-theseasons-bd.otf') format('opentype');
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'TheSeasons';
+  src: url('/fonts/Fontspring-DEMO-theseasons-bdit.otf') format('opentype');
+  font-weight: 700;
+  font-style: italic;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'TheSeasons';
+  src: url('/fonts/Fontspring-DEMO-theseasons-lt.otf') format('opentype');
+  font-weight: 300;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'TheSeasons';
+  src: url('/fonts/Fontspring-DEMO-theseasons-ltit.otf') format('opentype');
+  font-weight: 300;
+  font-style: italic;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Perandory';
+  src: url('/fonts/Perandory.woff') format('woff');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@theme {
+  --font-serif: 'TheSeasons', Georgia, serif;
+  --font-sans: 'Perandory', var(--font-montserrat), sans-serif;
+  --font-times: 'Times New Roman', Times, serif;
+
+  --color-background: #FAF9F6;
+  --color-foreground: #4A1A23;
+  --color-surface: #FFFFFF;
+  
+  --color-primary: #4A1A23;
+  --color-primary-foreground: #FAF9F6;
+  
+  --color-secondary: #8A7D78;
+  --color-secondary-foreground: #FFFFFF;
+
+  --color-accent: #C5A059;
+  --color-accent-foreground: #FAF9F6;
+  
+  --color-muted: #8A7D78;
+  --color-muted-foreground: #FAF9F6;
+
+  --color-card: #FFFFFF;
+  --color-card-foreground: #4A1A23;
+
+  --color-border: #C5A059;
+  --color-input: #8A7D78;
+  --color-ring: #C5A059;
+
+  --radius-sm: 0px;
+  --radius-md: 0px;
+  --radius-lg: 0px;
+
+  --animate-accordion-down: accordion-down 0.2s ease-out;
+  --animate-accordion-up: accordion-up 0.2s ease-out;
+
+  @keyframes accordion-down {
+    from {
+      height: 0;
+    }
+    to {
+      height: var(--radix-accordion-content-height);
+    }
+  }
+  @keyframes accordion-up {
+    from {
+      height: var(--radix-accordion-content-height);
+    }
+    to {
+      height: 0;
+    }
   }
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+:root {
+  --background: #FAF9F6;
+  --foreground: #4A1A23;
+  --card: #FFFFFF;
+  --card-foreground: #4A1A23;
+  --popover: #FFFFFF;
+  --popover-foreground: #4A1A23;
+  --primary: #4A1A23;
+  --primary-foreground: #FAF9F6;
+  --secondary: #8A7D78;
+  --secondary-foreground: #FFFFFF;
+  --muted: #8A7D78;
+  --muted-foreground: #FAF9F6;
+  --accent: #C5A059;
+  --accent-foreground: #FAF9F6;
+  --destructive: #ff0000;
+  --destructive-foreground: #FAF9F6;
+  --border: #C5A059;
+  --input: #8A7D78;
+  --ring: #C5A059;
+  --radius: 0rem;
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply bg-background text-foreground font-sans;
+    overflow-x: hidden;
+  }
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-serif;
+  }
+}
+
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+/* Times New Roman Italic - Ultra High Priority */
+.font-times,
+.times-italic,
+i,
+em,
+.italic {
+  font-family: 'Times New Roman', Times, 'Nimbus Roman No9 L', Georgia, serif !important;
+  font-style: italic !important;
 }
