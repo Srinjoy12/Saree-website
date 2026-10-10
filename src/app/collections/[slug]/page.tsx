@@ -33,18 +33,18 @@ export default async function CollectionPage(props: { params: Promise<{ slug: st
   const displayProducts = collectionProducts.length > 0 ? collectionProducts : products.slice(0, 8);
 
   return (
-    <div className="pt-32 pb-24 px-6 lg:px-12 max-w-[1440px] mx-auto min-h-screen bg-background">
-      <div className="text-center mb-16 max-w-2xl mx-auto">
-        <p className="font-sans text-accent uppercase tracking-[0.25em] text-xs mb-3">Curated Curation</p>
-        <h1 className="font-serif text-5xl md:text-6xl text-primary mb-6">
+    <div className="pt-24 sm:pt-32 pb-16 sm:pb-24 px-4 sm:px-6 lg:px-12 max-w-[1440px] mx-auto min-h-screen bg-background">
+      <div className="text-center mb-10 sm:mb-16 max-w-2xl mx-auto">
+        <p className="font-sans text-accent uppercase tracking-[0.25em] text-[11px] sm:text-xs mb-2 sm:mb-3">Curated Curation</p>
+        <h1 className="font-serif text-3xl sm:text-5xl md:text-6xl text-primary mb-3 sm:mb-6">
           {collectionName} <span className="times-italic font-normal" style={{ fontFamily: "'Times New Roman', Times, serif", fontStyle: "italic" }}>Series</span>
         </h1>
-        <p className="font-sans text-secondary">
+        <p className="font-sans text-xs sm:text-base text-secondary">
           Explore our signature {collectionName.toLowerCase()} collection. Certified handwoven pure silk and authentic zari.
         </p>
       </div>
 
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 gap-y-12">
+      <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-8 gap-y-6 sm:gap-y-12">
         {displayProducts.map(product => (
           <SareeCard key={product.id} product={product} />
         ))}

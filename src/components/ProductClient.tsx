@@ -51,26 +51,27 @@ export default function ProductClient({ product }: { product: Product }) {
   const whatsappLink = `https://wa.me/${siteConfig.contact.whatsapp}?text=${whatsappMessage}`;
 
   return (
-    <div className="pt-32 pb-24 px-6 lg:px-12 max-w-[1440px] mx-auto min-h-screen">
+    <div className="pt-24 sm:pt-32 pb-16 sm:pb-24 px-4 sm:px-6 lg:px-12 max-w-[1440px] mx-auto min-h-screen">
       {/* Breadcrumbs */}
-      <nav className="flex items-center gap-2 text-xs font-sans text-secondary uppercase tracking-widest mb-12">
-        <Link href="/" className="hover:text-primary transition-colors">Home</Link>
-        <ChevronRight size={14} />
-        <Link href="/sarees" className="hover:text-primary transition-colors">Sarees</Link>
-        <ChevronRight size={14} />
+      <nav className="flex items-center gap-2 text-[11px] sm:text-xs font-sans text-secondary uppercase tracking-widest mb-6 lg:mb-12 overflow-hidden text-ellipsis whitespace-nowrap">
+        <Link href="/" className="hover:text-primary transition-colors shrink-0">Home</Link>
+        <ChevronRight size={14} className="shrink-0 text-secondary/60" />
+        <Link href="/sarees" className="hover:text-primary transition-colors shrink-0">Sarees</Link>
+        <ChevronRight size={14} className="shrink-0 text-secondary/60" />
         <span className="text-primary truncate">{product.name}</span>
       </nav>
 
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-start">
-        {/* Gallery Section */}
-        <div className="flex flex-col-reverse md:flex-row gap-6 sticky top-32">
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-16 items-start">
+        {/* Gallery Section - relative on mobile, sticky only on desktop */}
+        <div className="flex flex-col-reverse md:flex-row gap-4 md:gap-6 relative lg:sticky lg:top-32">
           {/* Thumbnails */}
-          <div className="flex md:flex-col gap-4 overflow-x-auto md:overflow-x-visible no-scrollbar shrink-0">
+          <div className="flex md:flex-col gap-3 md:gap-4 overflow-x-auto md:overflow-x-visible no-scrollbar shrink-0 py-1">
             {product.images.map((img, idx) => (
               <button 
                 key={idx}
                 onClick={() => setActiveImage(idx)}
-                className={`relative w-20 aspect-[3/4] border ${activeImage === idx ? 'border-primary' : 'border-transparent'} transition-all`}
+                className={`relative w-16 sm:w-20 aspect-[3/4] border ${activeImage === idx ? 'border-primary ring-1 ring-primary' : 'border-black/10'} transition-all shrink-0`}
+                aria-label={`View image ${idx + 1}`}
               >
                 <Image src={img} alt={`${product.name} view ${idx + 1}`} fill className="object-cover" />
               </button>
@@ -79,7 +80,7 @@ export default function ProductClient({ product }: { product: Product }) {
 
           {/* Main Image with Zoom */}
           <div 
-            className="relative w-full aspect-[3/4] bg-secondary/10 cursor-crosshair overflow-hidden group"
+            className="relative w-full aspect-[3/4] bg-secondary/10 cursor-crosshair overflow-hidden group shadow-sm"
             onMouseMove={handleMouseMove}
             onMouseLeave={handleMouseLeave}
           >
@@ -88,12 +89,12 @@ export default function ProductClient({ product }: { product: Product }) {
               alt={product.name}
               fill
               priority
-              className="object-cover transition-opacity duration-300 group-hover:opacity-0"
+              className="object-cover transition-opacity duration-300 md:group-hover:opacity-0"
               sizes="(max-width: 768px) 100vw, 50vw"
             />
-            {/* Zoom Layer */}
+            {/* Zoom Layer (Desktop only) */}
             <div 
-              className="absolute inset-0 bg-no-repeat pointer-events-none transition-opacity duration-300 opacity-0 group-hover:opacity-100"
+              className="hidden md:block absolute inset-0 bg-no-repeat pointer-events-none transition-opacity duration-300 opacity-0 group-hover:opacity-100"
               style={{
                 backgroundImage: `url(${product.images[activeImage]})`,
                 backgroundSize: '250%',
@@ -104,22 +105,26 @@ export default function ProductClient({ product }: { product: Product }) {
         </div>
 
         {/* Details Section */}
-        <div className="flex flex-col max-w-lg">
-          <div className="flex justify-between items-start mb-4">
-            <p className="font-sans text-xs uppercase tracking-widest text-secondary">{product.fabric} • {product.color}</p>
+        <div className="flex flex-col max-w-lg w-full">
+          <div className="flex justify-between items-start mb-3">
+            <p className="font-sans text-[11px] sm:text-xs uppercase tracking-widest text-secondary">{product.fabric} • {product.color}</p>
             {mounted && (
-              <button onClick={toggleWishlist} className="text-primary hover:text-accent transition-colors" aria-label="Toggle wishlist">
-                <Heart size={24} className={isSaved ? "fill-accent text-accent" : ""} strokeWidth={1.2} />
+              <button 
+                onClick={toggleWishlist} 
+                className="text-primary hover:text-accent transition-colors min-w-[44px] min-h-[44px] flex items-center justify-center -mr-2" 
+                aria-label="Toggle wishlist"
+              >
+                <Heart size={22} className={isSaved ? "fill-accent text-accent" : ""} strokeWidth={1.4} />
               </button>
             )}
           </div>
           
-          <h1 className="font-serif text-4xl md:text-5xl text-primary mb-6 leading-tight">
+          <h1 className="font-serif text-3xl sm:text-4xl md:text-5xl text-primary mb-4 sm:mb-6 leading-tight">
             {product.name}
           </h1>
 
-          <div className="mb-8">
-            <p className="font-sans text-xl text-primary mb-2">
+          <div className="mb-6 sm:mb-8">
+            <p className="font-sans text-xl text-primary mb-1">
               {siteConfig.priceDisplayMode === "show" 
                 ? `₹${product.price.toLocaleString('en-IN')}` 
                 : siteConfig.priceDisplayMode === "request" 
@@ -134,24 +139,24 @@ export default function ProductClient({ product }: { product: Product }) {
             </p>
           </div>
 
-          <p className="font-sans text-secondary leading-relaxed mb-12">
+          <p className="font-sans text-secondary text-sm sm:text-base leading-relaxed mb-8 sm:mb-12">
             {product.description}
           </p>
 
           {/* Action Buttons */}
-          <div className="flex flex-col gap-4 mb-16">
+          <div className="flex flex-col gap-3 sm:gap-4 mb-12 sm:mb-16">
             <a 
               href={whatsappLink}
               target="_blank"
               rel="noopener noreferrer"
-              className="flex items-center justify-center gap-3 w-full bg-primary text-background py-4 font-sans text-sm uppercase tracking-widest hover:bg-accent transition-colors"
+              className="flex items-center justify-center gap-3 w-full bg-primary text-background py-3.5 sm:py-4 font-sans text-xs sm:text-sm uppercase tracking-widest hover:bg-accent transition-colors min-h-[48px]"
             >
               <MessageCircle size={18} />
               Enquire on WhatsApp
             </a>
             <a 
               href={`tel:${siteConfig.contact.phone.replace(/\s+/g, '')}`}
-              className="flex items-center justify-center gap-3 w-full border border-primary text-primary py-4 font-sans text-sm uppercase tracking-widest hover:bg-primary/5 transition-colors"
+              className="flex items-center justify-center gap-3 w-full border border-primary text-primary py-3.5 sm:py-4 font-sans text-xs sm:text-sm uppercase tracking-widest hover:bg-primary/5 transition-colors min-h-[48px]"
             >
               <Phone size={18} />
               Call the Store

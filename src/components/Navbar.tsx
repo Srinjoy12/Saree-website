@@ -18,27 +18,39 @@ export default function Navbar() {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
+  // Lock body scroll when mobile menu is open
+  useEffect(() => {
+    if (mobileMenuOpen) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "";
+    }
+    return () => {
+      document.body.style.overflow = "";
+    };
+  }, [mobileMenuOpen]);
+
   return (
     <>
       <header
         className={`fixed top-0 w-full z-50 transition-all duration-500 ${
           isScrolled
-            ? "bg-[#1E0D1B]/95 backdrop-blur-md py-3 shadow-[0_4px_20px_rgba(0,0,0,0.3)] border-b border-[#C5A059]/20"
-            : "bg-gradient-to-b from-black/80 via-black/40 to-transparent py-5"
+            ? "bg-[#1E0D1B]/95 backdrop-blur-md py-2.5 sm:py-3 shadow-[0_4px_20px_rgba(0,0,0,0.3)] border-b border-[#C5A059]/20"
+            : "bg-gradient-to-b from-black/85 via-black/45 to-transparent py-3 sm:py-5"
         }`}
       >
-        <div className="max-w-[1440px] mx-auto px-6 lg:px-12 flex items-center justify-between">
+        <div className="max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-12 flex items-center justify-between">
           
           {/* Logo with Lotus Motif & Subtitle */}
-          <Link href="/" className="flex items-center gap-3 group">
-            <span className="text-[#C5A059] text-2xl group-hover:scale-105 transition-transform duration-300">
+          <Link href="/" className="flex items-center gap-2.5 sm:gap-3 group">
+            <span className="text-[#C5A059] text-xl sm:text-2xl group-hover:scale-105 transition-transform duration-300">
               🪷
             </span>
             <div className="flex flex-col">
-              <span className="font-serif text-2xl md:text-3xl font-medium tracking-[0.12em] text-[#FAF9F6]">
+              <span className="font-serif text-xl sm:text-2xl md:text-3xl font-medium tracking-[0.12em] text-[#FAF9F6]">
                 DARSH
               </span>
-              <span className="text-[9px] font-sans tracking-[0.25em] text-[#C5A059] uppercase -mt-1">
+              <span className="text-[8px] sm:text-[9px] font-sans tracking-[0.2em] sm:tracking-[0.25em] text-[#C5A059] uppercase -mt-0.5 sm:-mt-1">
                 TRADITION IN EVERY DRAPE
               </span>
             </div>
@@ -153,30 +165,46 @@ export default function Navbar() {
           </nav>
 
           {/* Right Utility Icons (Search, Profile, Wishlist, Cart) */}
-          <div className="flex items-center gap-5 text-[#FAF9F6]/90">
-            <button aria-label="Search" className="hover:text-[#C5A059] transition-colors">
-              <Search strokeWidth={1.6} size={20} />
-            </button>
-            <Link href="/contact" aria-label="Account" className="hover:text-[#C5A059] transition-colors hidden sm:block">
-              <User strokeWidth={1.6} size={20} />
+          <div className="flex items-center gap-2 sm:gap-4 text-[#FAF9F6]/90">
+            <Link 
+              href="/sarees" 
+              aria-label="Search Catalog" 
+              className="w-10 h-10 flex items-center justify-center hover:text-[#C5A059] transition-colors rounded-full"
+            >
+              <Search strokeWidth={1.6} size={19} />
             </Link>
-            <Link href="/wishlist" aria-label="Wishlist" className="hover:text-[#C5A059] transition-colors relative">
-              <Heart strokeWidth={1.6} size={20} />
+            <Link 
+              href="/contact" 
+              aria-label="Account" 
+              className="w-10 h-10 hidden sm:flex items-center justify-center hover:text-[#C5A059] transition-colors rounded-full"
+            >
+              <User strokeWidth={1.6} size={19} />
             </Link>
-            <Link href="/sarees" aria-label="Shopping Cart" className="hover:text-[#C5A059] transition-colors relative flex items-center">
-              <ShoppingBag strokeWidth={1.6} size={20} />
-              <span className="absolute -top-1.5 -right-2 bg-[#C5A059] text-[#1E0D1B] text-[10px] font-bold w-4 h-4 rounded-full flex items-center justify-center">
+            <Link 
+              href="/wishlist" 
+              aria-label="Wishlist" 
+              className="w-10 h-10 flex items-center justify-center hover:text-[#C5A059] transition-colors relative rounded-full"
+            >
+              <Heart strokeWidth={1.6} size={19} />
+            </Link>
+            <Link 
+              href="/sarees" 
+              aria-label="Shopping Cart" 
+              className="w-10 h-10 flex items-center justify-center hover:text-[#C5A059] transition-colors relative rounded-full"
+            >
+              <ShoppingBag strokeWidth={1.6} size={19} />
+              <span className="absolute top-1.5 right-1.5 bg-[#C5A059] text-[#1E0D1B] text-[9px] font-bold w-4 h-4 rounded-full flex items-center justify-center">
                 0
               </span>
             </Link>
 
             {/* Mobile Menu Trigger */}
             <button 
-              className="lg:hidden text-[#FAF9F6] hover:text-[#C5A059] transition-colors ml-2"
+              className="lg:hidden w-10 h-10 flex items-center justify-center text-[#FAF9F6] hover:text-[#C5A059] transition-colors ml-0.5 rounded-full"
               onClick={() => setMobileMenuOpen(true)}
-              aria-label="Toggle Menu"
+              aria-label="Open Navigation Menu"
             >
-              <Menu strokeWidth={1.8} size={24} />
+              <Menu strokeWidth={1.8} size={22} />
             </button>
           </div>
         </div>
@@ -189,43 +217,131 @@ export default function Navbar() {
             initial={{ opacity: 0, x: "100%" }}
             animate={{ opacity: 1, x: 0 }}
             exit={{ opacity: 0, x: "100%" }}
-            transition={{ type: "tween", duration: 0.4 }}
-            className="fixed inset-0 z-[60] bg-[#1E0D1B] text-[#FAF9F6] flex flex-col pt-20 px-8"
+            transition={{ type: "tween", duration: 0.35, ease: [0.32, 0.72, 0, 1] }}
+            className="fixed inset-0 z-[60] bg-[#190916]/98 backdrop-blur-xl text-[#FAF9F6] flex flex-col justify-between overflow-y-auto"
           >
-            <button 
-              onClick={() => setMobileMenuOpen(false)}
-              className="absolute top-6 right-6 p-2 text-[#FAF9F6] hover:text-[#C5A059]"
-              aria-label="Close menu"
-            >
-              <X strokeWidth={1.8} size={28} />
-            </button>
+            {/* Drawer Header */}
+            <div className="flex items-center justify-between px-6 py-5 border-b border-[#C5A059]/20">
+              <Link href="/" onClick={() => setMobileMenuOpen(false)} className="flex items-center gap-2.5">
+                <span className="text-[#C5A059] text-xl">🪷</span>
+                <span className="font-serif text-xl tracking-[0.12em] text-[#FAF9F6] font-medium">
+                  DARSH
+                </span>
+              </Link>
+              <button 
+                onClick={() => setMobileMenuOpen(false)}
+                className="w-11 h-11 flex items-center justify-center text-[#FAF9F6] hover:text-[#C5A059] rounded-full border border-white/10"
+                aria-label="Close menu"
+              >
+                <X strokeWidth={1.8} size={22} />
+              </button>
+            </div>
 
-            <nav className="flex flex-col gap-6 mt-6">
-              <Link href="/" onClick={() => setMobileMenuOpen(false)} className="font-serif text-2xl text-[#FAF9F6]">
-                Home
+            {/* Drawer Links */}
+            <nav className="flex flex-col px-6 py-6 gap-5">
+              <Link 
+                href="/" 
+                onClick={() => setMobileMenuOpen(false)} 
+                className="font-serif text-2xl text-[#FAF9F6] hover:text-[#C5A059] transition-colors py-1 flex items-center justify-between"
+              >
+                <span>Home</span>
+                <span className="text-xs font-sans text-secondary tracking-widest uppercase">01</span>
               </Link>
-              <Link href="/sarees" onClick={() => setMobileMenuOpen(false)} className="font-serif text-2xl text-[#FAF9F6]">
-                Shop All Sarees
+              
+              <Link 
+                href="/sarees" 
+                onClick={() => setMobileMenuOpen(false)} 
+                className="font-serif text-2xl text-[#FAF9F6] hover:text-[#C5A059] transition-colors py-1 flex items-center justify-between"
+              >
+                <span>Shop All Sarees</span>
+                <span className="text-xs font-sans text-secondary tracking-widest uppercase">02</span>
               </Link>
-              <Link href="/collections" onClick={() => setMobileMenuOpen(false)} className="font-serif text-2xl text-[#FAF9F6]">
-                Collections
+
+              {/* Quick Collection Shortcuts */}
+              <div className="py-2 border-y border-white/10 my-1">
+                <p className="font-sans text-[10px] uppercase tracking-[0.25em] text-[#C5A059] mb-3">
+                  Signature Weaves
+                </p>
+                <div className="grid grid-cols-2 gap-2 text-xs font-sans uppercase tracking-wider text-[#FAF9F6]/80">
+                  <Link href="/collections/banarasi" onClick={() => setMobileMenuOpen(false)} className="py-1.5 px-3 bg-white/5 rounded-sm hover:text-[#C5A059]">
+                    Banarasi
+                  </Link>
+                  <Link href="/collections/kanjivaram" onClick={() => setMobileMenuOpen(false)} className="py-1.5 px-3 bg-white/5 rounded-sm hover:text-[#C5A059]">
+                    Kanjivaram
+                  </Link>
+                  <Link href="/collections/chanderi" onClick={() => setMobileMenuOpen(false)} className="py-1.5 px-3 bg-white/5 rounded-sm hover:text-[#C5A059]">
+                    Tissue &amp; Chanderi
+                  </Link>
+                  <Link href="/collections/bridal" onClick={() => setMobileMenuOpen(false)} className="py-1.5 px-3 bg-white/5 rounded-sm hover:text-[#C5A059]">
+                    Bridal Trousseau
+                  </Link>
+                </div>
+              </div>
+
+              <Link 
+                href="/collections" 
+                onClick={() => setMobileMenuOpen(false)} 
+                className="font-serif text-2xl text-[#FAF9F6] hover:text-[#C5A059] transition-colors py-1 flex items-center justify-between"
+              >
+                <span>All Collections</span>
+                <span className="text-xs font-sans text-secondary tracking-widest uppercase">03</span>
               </Link>
-              <Link href="/lookbook" onClick={() => setMobileMenuOpen(false)} className="font-serif text-2xl text-[#FAF9F6]">
-                Lookbook
+
+              <Link 
+                href="/lookbook" 
+                onClick={() => setMobileMenuOpen(false)} 
+                className="font-serif text-2xl text-[#FAF9F6] hover:text-[#C5A059] transition-colors py-1 flex items-center justify-between"
+              >
+                <span>Lookbook</span>
+                <span className="text-xs font-sans text-secondary tracking-widest uppercase">04</span>
               </Link>
-              <Link href="/heritage" onClick={() => setMobileMenuOpen(false)} className="font-serif text-2xl text-[#FAF9F6]">
-                About Our Heritage
+
+              <Link 
+                href="/heritage" 
+                onClick={() => setMobileMenuOpen(false)} 
+                className="font-serif text-2xl text-[#FAF9F6] hover:text-[#C5A059] transition-colors py-1 flex items-center justify-between"
+              >
+                <span>Our Heritage</span>
+                <span className="text-xs font-sans text-secondary tracking-widest uppercase">05</span>
               </Link>
-              <Link href="/bespoke" onClick={() => setMobileMenuOpen(false)} className="font-serif text-2xl text-[#FAF9F6]">
-                Bespoke Bridal
+
+              <Link 
+                href="/bespoke" 
+                onClick={() => setMobileMenuOpen(false)} 
+                className="font-serif text-2xl text-[#FAF9F6] hover:text-[#C5A059] transition-colors py-1 flex items-center justify-between"
+              >
+                <span>Bespoke Styling</span>
+                <span className="text-xs font-sans text-secondary tracking-widest uppercase">06</span>
               </Link>
-              <Link href="/contact" onClick={() => setMobileMenuOpen(false)} className="font-serif text-2xl text-[#FAF9F6]">
-                Contact &amp; Boutique
+
+              <Link 
+                href="/contact" 
+                onClick={() => setMobileMenuOpen(false)} 
+                className="font-serif text-2xl text-[#FAF9F6] hover:text-[#C5A059] transition-colors py-1 flex items-center justify-between"
+              >
+                <span>Contact <span className="times-italic font-normal" style={{ fontFamily: "'Times New Roman', Times, serif", fontStyle: "italic" }}>&amp;</span> Boutique</span>
+                <span className="text-xs font-sans text-secondary tracking-widest uppercase">07</span>
               </Link>
             </nav>
+
+            {/* Drawer Bottom Concierge */}
+            <div className="px-6 py-6 border-t border-white/10 bg-black/20 flex flex-col gap-3">
+              <a 
+                href="https://wa.me/919876543210?text=Hello%20Darsh%20Collections,%20I%20would%20like%20to%20enquire%20about%20sarees"
+                target="_blank"
+                rel="noreferrer"
+                className="w-full py-3 bg-[#5C1A4A] hover:bg-[#782361] text-[#FAF9F6] font-sans text-xs uppercase tracking-widest text-center rounded-sm font-medium transition-colors min-h-[44px] flex items-center justify-center"
+              >
+                WhatsApp Concierge
+              </a>
+              <p className="text-[11px] font-sans text-center text-[#FAF9F6]/60">
+                12 Heritage Lane, Silk District • 11 AM - 8 PM
+              </p>
+            </div>
           </motion.div>
         )}
       </AnimatePresence>
     </>
   );
 }
+

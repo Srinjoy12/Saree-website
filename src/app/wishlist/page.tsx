@@ -35,30 +35,30 @@ export default function WishlistPage() {
   };
 
   return (
-    <div className="pt-32 pb-24 px-6 lg:px-12 max-w-[1440px] mx-auto min-h-screen">
-      <div className="text-center mb-16">
-        <h1 className="font-serif text-5xl md:text-6xl text-primary mb-6">Saved Sarees</h1>
-        <p className="font-sans text-secondary max-w-2xl mx-auto">
+    <div className="pt-24 sm:pt-32 pb-16 sm:pb-24 px-4 sm:px-6 lg:px-12 max-w-[1440px] mx-auto min-h-screen">
+      <div className="text-center mb-8 sm:mb-16">
+        <h1 className="font-serif text-3xl sm:text-5xl md:text-6xl text-primary mb-3 sm:mb-6">Saved Sarees</h1>
+        <p className="font-sans text-xs sm:text-base text-secondary max-w-2xl mx-auto">
           Your personal curation of handwoven masterpieces.
         </p>
       </div>
 
       {savedSarees.length > 0 ? (
         <>
-          <div className="flex justify-between items-center mb-8 border-b border-accent/20 pb-4">
-            <span className="font-sans text-sm text-secondary">
+          <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-3 mb-6 sm:mb-8 border-b border-accent/20 pb-4">
+            <span className="font-sans text-xs sm:text-sm text-secondary">
               {savedSarees.length} {savedSarees.length === 1 ? 'item' : 'items'} saved
             </span>
             <button 
               onClick={handleShare}
-              className="flex items-center gap-2 text-xs font-sans font-medium uppercase tracking-[0.1em] text-primary hover:text-accent transition-colors"
+              className="flex items-center justify-center gap-2 text-xs font-sans font-medium uppercase tracking-[0.1em] text-primary hover:text-accent transition-colors py-2.5 px-4 bg-primary/5 sm:bg-transparent rounded-sm min-h-[44px]"
             >
               <MessageCircle size={16} />
               Share List on WhatsApp
             </button>
           </div>
 
-          <motion.div layout className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 gap-y-12">
+          <motion.div layout className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-8 gap-y-6 sm:gap-y-12">
             <AnimatePresence>
               {savedSarees.map(product => (
                 <motion.div
